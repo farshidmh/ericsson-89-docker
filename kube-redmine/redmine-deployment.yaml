@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redmine
+  labels:
+    app: redmine
+spec:
+  selector:
+    matchLabels:
+      app: redmine
+
+
+  replicas: 1
+
+  template:
+    metadata:
+      labels:
+        app: redmine
+
+
+    spec:
+      containers:
+      - name: redmine
+        image: docker.io/bitnami/redmine:4.0.0
+        imagePullPolicy: "IfNotPresent"
+        ports:
+          - name: http
+            containerPort: 3000
+        env:
+          - name: REDMINE_DB_MYSQL
+            value: mysql
+          - name: REDMINE_DB_PASSWORD
+            value: password
+          - name: REDMINE_USERNAME
+            value: user
+          - name: REDMINE_PASSWORD
+            value: password
+          - name: REDMINE_EMAIL
+            value: a@a.com
+
+
+
+
+            
+          
+
