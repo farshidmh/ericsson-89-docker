@@ -5,10 +5,16 @@ metadata:
   labels:
     app: wordpress
 spec:
-  replicas: 1
+  
+  strategy:
+    type: Recreate
+
+
   selector:
     matchLabels:
       app: wordpress
+
+
   template:
     metadata:
       labels:
@@ -16,18 +22,15 @@ spec:
     spec:
       containers:
       - name: mysql
-        image: mysql:5.7
+        image: mysql:5.6
         ports:
           - containerPort: 3306
         env:
           - name: MYSQL_ROOT_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: mysql-secret
-                key: password
+            value: password
         volumeMounts:
           - name: mysql-persistent-storage
-            mountPath: /var/lib/mysql1
+            mountPath: /var/lib/mysql
       volumes:
         - name: mysql-persistent-storage
           persistentVolumeClaim:
